@@ -6,7 +6,7 @@ Works by registering a Bash completion to suggest arguments to `yarn`. See https
 
 ## Try out
 ```
-complete -C /your-checkout/yarn-autocomplete-bash.js yarn
+complete -o default -C /your-checkout/yarn-autocomplete-bash.js yarn
 
 yarn <TAB><TAB>
 yarn run <TAB><TAB>
@@ -14,4 +14,4 @@ yarn run <TAB><TAB>
 
 ## Install
 
-Add `complete -C /your-checkout/yarn-autocomplete-bash.js yarn` to your `~/.bashrc`.
+Add `complete -o default -C /your-checkout/yarn-autocomplete-bash.js yarn` to your `~/.bashrc`.

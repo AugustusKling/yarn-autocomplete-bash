@@ -24,7 +24,7 @@ const commandOptions = {
         "--prefer-dev",
         "--interactive",
         "--cached",
-        "--mode #0"
+        "--mode"
     ],
     bin: [
         "--verbose",
@@ -324,6 +324,11 @@ currentCommandOptions.sort((commandA, commandB) => {
 });
 if (currentCommandOptions.length > 0) {
     const currentCommand = currentCommandOptions[0];
+    const inScriptArgs = currentCommand === 'run' && /^run\s+\S+\s$/.test(commandWithArgs);
+    if (inScriptArgs) {
+        // No need to suggest options to Yarn's 'run' since we are already in the script's arguments.
+        return;
+    }
     for (const option of commandOptions[currentCommand]) {
         if (option.startsWith(wordInCompletion)) {
             console.log(option);
