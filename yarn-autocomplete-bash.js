@@ -297,6 +297,22 @@ function readManifest() {
     }
 }
 
+/**
+ * @param {string} completion
+ * @returns {void}
+ */
+function suggestCompletion(completion) {
+    if (completion.startsWith(wordInCompletion)) {
+        // Bash treats ':' as separator when replacing prefixes with completions.
+        if (wordInCompletion.includes(':')) {
+            const remainder = completion.substring(wordInCompletion.lastIndexOf(':') + 1);
+            console.log(remainder);
+        } else {
+            console.log(completion);
+        }
+    }
+}
+
 // Completion for Yarn CLI command names.
 const completableComands = Object.keys(commandOptions).filter(command => command.startsWith(commandWithArgs));
 if (completableComands.length > 0) {
@@ -330,18 +346,14 @@ if (currentCommandOptions.length > 0) {
         return;
     }
     for (const option of commandOptions[currentCommand]) {
-        if (option.startsWith(wordInCompletion)) {
-            console.log(option);
-        }
+        suggestCompletion(option);
     }
 
     if (currentCommand === 'run') {
         const manifest = readManifest();
         if (manifest?.scripts && typeof (manifest.scripts) === 'object') {
             for (const script of Object.keys(manifest.scripts)) {
-                if (script.startsWith(wordInCompletion)) {
-                    console.log(script);
-                }
+                suggestCompletion(script)
             }
         }
     }
@@ -352,9 +364,7 @@ if (currentCommandOptions.length > 0) {
         for (const key of ['dependencies', 'devDependencies']) {
             if (manifest?.[key] && typeof (manifest[key]) === 'object') {
                 for (const packageName of Object.keys(manifest[key])) {
-                    if (packageName.startsWith(wordInCompletion)) {
-                        console.log(packageName);
-                    }
+                    suggestCompletion(packageName);
                 }
             }
         }
